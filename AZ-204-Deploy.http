@@ -1,0 +1,6 @@
+@AZ_204_Deploy_HostAddress = http://localhost:5141
+
+GET {{AZ_204_Deploy_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

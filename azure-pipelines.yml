@@ -1,0 +1,30 @@
+trigger:
+- main
+
+pool:
+  vmImgage: ubuntu-latest
+
+variables:
+  solution: '*.sln'
+  buildPlataform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Install .Net SDK'
+  inputs:
+    packageType: sdk
+    version: '8.x'
+
+- script: dotnet restore $(solution)
+  displayName: 'Restore Solution'
+  
+- script: dotnet build $(solution) --configuration $(BuildConfiguration)
+  displayName: 'Build Solution'
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'acrdioteste'
+    repository: 'api-dio-teste'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
